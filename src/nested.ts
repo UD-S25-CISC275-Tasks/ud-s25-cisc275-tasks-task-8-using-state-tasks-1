@@ -1,12 +1,19 @@
 import { Answer } from "./interfaces/answer";
 import { Question, QuestionType } from "./interfaces/question";
+import { duplicateQuestion, makeBlankQuestion } from "./objects";
 
 /**
  * Consumes an array of questions and returns a new array with only the questions
  * that are `published`.
  */
 export function getPublishedQuestions(questions: Question[]): Question[] {
-    return [];
+    let publishedQuestions: Question[] = [];
+    for (let i = 0; i < questions.length; i++) {
+        if (questions[i].published) {
+            publishedQuestions.push(questions[i]);
+        }
+    }
+    return publishedQuestions;
 }
 
 /**
@@ -15,7 +22,11 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
  * `expected`, and an empty array for its `options`.
  */
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
-    return [];
+    let newList = questions.filter(
+        (q) => q.body !== "" || q.expected !== "" || q.options.length > 0,
+    );
+
+    return newList;
 }
 
 /***
@@ -24,8 +35,13 @@ export function getNonEmptyQuestions(questions: Question[]): Question[] {
  */
 export function findQuestion(
     questions: Question[],
-    id: number
+    id: number,
 ): Question | null {
+    for (let i = 0; i < questions.length; i++) {
+        if (questions[i].id == id) {
+            return questions[i];
+        }
+    }
     return null;
 }
 
@@ -34,7 +50,13 @@ export function findQuestion(
  * with the given `id`.
  */
 export function removeQuestion(questions: Question[], id: number): Question[] {
-    return [];
+    let newArr: Question[] = [];
+    for (let i = 0; i < questions.length; i++) {
+        if (questions[i].id !== id) {
+            newArr.push(questions[i]);
+        }
+    }
+    return newArr;
 }
 
 /***
@@ -42,21 +64,35 @@ export function removeQuestion(questions: Question[], id: number): Question[] {
  * questions, as an array.
  */
 export function getNames(questions: Question[]): string[] {
-    return [];
+    let newStr: string[] = [];
+    for (let i = 0; i < questions.length; i++) {
+        newStr.push(questions[i].name);
+    }
+    return newStr;
 }
 
 /***
  * Consumes an array of questions and returns the sum total of all their points added together.
  */
 export function sumPoints(questions: Question[]): number {
-    return 0;
+    let total: number = 0;
+    for (let i = 0; i < questions.length; i++) {
+        total += questions[i].points;
+    }
+    return total;
 }
 
 /***
  * Consumes an array of questions and returns the sum total of the PUBLISHED questions.
  */
 export function sumPublishedPoints(questions: Question[]): number {
-    return 0;
+    let count: number = 0;
+    for (let i = 0; i < questions.length; i++) {
+        if (questions[i].published) {
+            count += questions[i].points;
+        }
+    }
+    return count;
 }
 
 /***
@@ -77,7 +113,12 @@ id,name,options,points,published
  * Check the unit tests for more examples!
  */
 export function toCSV(questions: Question[]): string {
-    return "";
+    const header = "id,name,options,points,published"; // First row: header
+    const rows = questions.map(
+        (q) =>
+            `${q.id},${q.name},${q.options.length},${q.points},${q.published}`,
+    );
+    return [header, ...rows].join("\n");
 }
 
 /**
@@ -86,7 +127,16 @@ export function toCSV(questions: Question[]): string {
  * making the `text` an empty string, and using false for both `submitted` and `correct`.
  */
 export function makeAnswers(questions: Question[]): Answer[] {
-    return [];
+    let ansList: Answer[] = [];
+    for (let i = 0; i < questions.length; i++) {
+        ansList.push({
+            questionId: questions[i].id,
+            text: "",
+            submitted: false,
+            correct: false,
+        });
+    }
+    return ansList;
 }
 
 /***
@@ -94,7 +144,11 @@ export function makeAnswers(questions: Question[]): Answer[] {
  * each question is now published, regardless of its previous published status.
  */
 export function publishAll(questions: Question[]): Question[] {
-    return [];
+    let quesList: Question[] = [];
+    for (let i = 0; i < questions.length; i++) {
+        quesList.push({ ...questions[i], published: true });
+    }
+    return quesList;
 }
 
 /***
@@ -102,7 +156,12 @@ export function publishAll(questions: Question[]): Question[] {
  * are the same type. They can be any type, as long as they are all the SAME type.
  */
 export function sameType(questions: Question[]): boolean {
-    return false;
+    for (let i = 0; i < questions.length; i++) {
+        if (questions[i].type !== questions[0].type) {
+            return false;
+        }
+    }
+    return true;
 }
 
 /***
@@ -114,9 +173,16 @@ export function addNewQuestion(
     questions: Question[],
     id: number,
     name: string,
-    type: QuestionType
+    type: QuestionType,
 ): Question[] {
-    return [];
+    let emptyQues: Question = makeBlankQuestion(id, name, type);
+    let newArray: Question[] = [];
+    for (let i = 0; i < questions.length; i++) {
+        newArray.push({ ...questions[i] });
+    }
+    newArray.push(emptyQues);
+
+    return newArray;
 }
 
 /***
@@ -127,9 +193,18 @@ export function addNewQuestion(
 export function renameQuestionById(
     questions: Question[],
     targetId: number,
-    newName: string
+    newName: string,
 ): Question[] {
-    return [];
+    let empList: Question[] = [];
+
+    for (let i = 0; i < questions.length; i++) {
+        if (questions[i].id == targetId) {
+            empList.push({ ...questions[i], name: newName }); //IF CONDITION MATCHES ADD IT TO THE LIST AND CHANGE THE NAME
+        } else {
+            empList.push({ ...questions[i] }); //IF IT DOES NOT MATCH JUST COPY IT NORMALLY
+        }
+    }
+    return empList;
 }
 
 /***
@@ -142,9 +217,24 @@ export function renameQuestionById(
 export function changeQuestionTypeById(
     questions: Question[],
     targetId: number,
-    newQuestionType: QuestionType
+    newQuestionType: QuestionType,
 ): Question[] {
-    return [];
+    let eList: Question[] = [];
+
+    for (let i = 0; i < questions.length; i++) {
+        if (questions[i].id === targetId) {
+            //check first conditiong
+            let updatedQuestion = { ...questions[i], type: newQuestionType }; //local variable updated
+            if (newQuestionType !== "multiple_choice_question") {
+                //second conditiong
+                updatedQuestion.options = [];
+            }
+            eList.push(updatedQuestion);
+        } else {
+            eList.push({ ...questions[i] }); //if nun matches just copy the normal list
+        }
+    }
+    return eList;
 }
 
 /**
@@ -161,9 +251,29 @@ export function editOption(
     questions: Question[],
     targetId: number,
     targetOptionIndex: number,
-    newOption: string
+    newOption: string,
 ): Question[] {
-    return [];
+    let eArray: Question[] = [];
+    for (let i = 0; i < questions.length; i++) {
+        if (questions[i].id == targetId) {
+            let newQues = {
+                ...questions[i],
+                options: [...questions[i].options],
+            };
+            if (targetOptionIndex == -1) {
+                newQues.options.push(newOption);
+            } else if (
+                targetOptionIndex >= 0 &&
+                targetOptionIndex < newQues.options.length
+            ) {
+                newQues.options[targetOptionIndex] = newOption;
+            }
+            eArray.push(newQues);
+        } else {
+            eArray.push(questions[i]);
+        }
+    }
+    return eArray;
 }
 
 /***
@@ -175,7 +285,16 @@ export function editOption(
 export function duplicateQuestionInArray(
     questions: Question[],
     targetId: number,
-    newId: number
+    newId: number,
 ): Question[] {
-    return [];
+    let emptyArray: Question[] = [];
+
+    for (let i = 0; i < questions.length; i++) {
+        emptyArray.push({ ...questions[i] });
+        if (questions[i].id == targetId) {
+            let dup = duplicateQuestion(newId, questions[i]);
+            emptyArray.push(dup);
+        }
+    }
+    return emptyArray;
 }
