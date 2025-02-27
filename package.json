@@ -4,6 +4,7 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+<<<<<<< HEAD
         "@testing-library/jest-dom": "^5.17.0",
         "@testing-library/user-event": "^13.5.0",
         "@types/jest": "^27.5.2",
@@ -13,6 +14,20 @@
         "react-dom": "^18.3.1",
         "react-scripts": "5.0.1",
         "typescript": "^4.9.5",
+=======
+        "@testing-library/jest-dom": "^5.16.1",
+        "@testing-library/react": "^12.1.2",
+        "@testing-library/user-event": "^13.5.0",
+        "@types/jest": "^27.4.0",
+        "@types/node": "^16.11.21",
+        "@types/react": "^17.0.38",
+        "@types/react-dom": "^17.0.11",
+        "react": "^17.0.2",
+        "react-bootstrap": "^2.1.1",
+        "react-dom": "^17.0.2",
+        "react-scripts": "5.0.0",
+        "typescript": "^4.5.5",
+>>>>>>> solved-state
         "web-vitals": "^2.1.4"
     },
     "scripts": {
@@ -21,8 +36,14 @@
         "test": "react-scripts test",
         "test:cov": "react-scripts test --coverage --watchAll",
         "eject": "react-scripts eject",
+<<<<<<< HEAD
         "lint": "eslint ./src --ext .tsx --ext .ts --max-warnings 0",
         "eslint-output": "eslint-output ./src --ext .tsx --ext .ts --max-warnings 0",
+=======
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build",
+        "lint": "eslint ./src --ext .tsx --ext .ts --max-warnings 0",
+>>>>>>> solved-state
         "format": "prettier --config .prettierrc --write src/**/*.{ts,tsx}"
     },
     "eslintConfig": {
@@ -44,6 +65,7 @@
         ]
     },
     "devDependencies": {
+<<<<<<< HEAD
         "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
         "@babel/plugin-transform-private-property-in-object": "^7.24.7",
         "@testing-library/dom": "^10.4.0",
@@ -64,6 +86,17 @@
         "prettier-eslint": "^16.3.0",
         "ts-jest": "^29.2.4",
         "ts-node": "^10.9.2"
+=======
+        "@typescript-eslint/eslint-plugin": "^5.10.1",
+        "@typescript-eslint/parser": "^5.10.1",
+        "eslint": "^8.7.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-prettier": "^4.0.0",
+        "eslint-plugin-react": "^7.28.0",
+        "gh-pages": "^3.2.3",
+        "prettier": "2.5.1",
+        "prettier-eslint": "^13.0.0"
+>>>>>>> solved-state
     },
     "jest": {
         "collectCoverageFrom": [
