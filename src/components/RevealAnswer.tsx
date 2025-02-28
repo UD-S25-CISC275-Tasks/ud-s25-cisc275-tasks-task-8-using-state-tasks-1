@@ -1,14 +1,16 @@
-import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+  import React, { useState } from 'react';
 
-export function RevealAnswer(): React.JSX.Element {
-    const [visible, setVisible] = useState<boolean>(false);
+  const RevealAnswer: React.FC = () => {
+    const [isVisible, setIsVisible] = useState<boolean>(false);
 
     return (
-        <div>
-            <h3>Reveal Answer</h3>
-            <Button onClick={() => setVisible(true)}>Show Answer</Button>
-            {visible && <p>42</p>}
-        </div>
+      <div>
+        <button onClick={() => setIsVisible(!isVisible)}>
+          {isVisible ? 'Hide Answer' : 'Reveal Answer'}
+        </button>
+        {isVisible && <p>The answer is 42.</p>}
+      </div>
     );
-}
+  };
+
+  export default RevealAnswer;

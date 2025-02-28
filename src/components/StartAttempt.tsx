@@ -1,38 +1,33 @@
-import React, { useState } from "react";
-import { Button } from "react-bootstrap";
+  import React, { useState } from 'react';
 
-export function StartAttempt(): React.JSX.Element {
-    const [attemptsLeft, setAttemptsLeft] = useState<number>(3);
-    const [inProgress, setInProgress] = useState<boolean>(false);
+  const StartAttempt: React.FC = () => {
+    const [attempts, setAttempts] = useState<number>(0);
+    const [isActive, setIsActive] = useState<boolean>(false);
 
-    function startAttempt() {
-        if (attemptsLeft > 0) {
-            setInProgress(true);
-            setAttemptsLeft(attemptsLeft - 1);
-        }
-    }
+    const startAttempt = () => {
+      if (!isActive) {
+        setIsActive(true);
+        setAttempts((prev) => prev + 1);
+      }
+    };
 
-    function stopAttempt() {
-        setInProgress(false);
-    }
-
-    function mulligan() {
-        setAttemptsLeft(attemptsLeft + 1);
-    }
+    const stopAttempt = () => {
+      if (isActive) {
+        setIsActive(false);
+      }
+    };
 
     return (
-        <div>
-            <h3>Start Attempt</h3>
-            <p>Attempts Left: {attemptsLeft}</p>
-            <Button onClick={startAttempt} disabled={inProgress || attemptsLeft === 0}>
-                Start Quiz
-            </Button>
-            <Button onClick={stopAttempt} disabled={!inProgress}>
-                Stop Quiz
-            </Button>
-            <Button onClick={mulligan} disabled={inProgress}>
-                Mulligan (Gain Attempt)
-            </Button>
-        </div>
+      <div>
+        <p>Attempts: {attempts}</p>
+        <button onClick={startAttempt} disabled={isActive}>
+          Start Attempt
+        </button>
+        <button onClick={stopAttempt} disabled={!isActive}>
+          Stop Attempt
+        </button>
+      </div>
     );
-}
+  };
+
+  export default StartAttempt;

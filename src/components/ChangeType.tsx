@@ -1,29 +1,18 @@
-import React, { useState } from "react";
-import { Button } from "react-bootstrap";
-import { QuestionType } from "../interfaces/question";
+  import React, { useState } from 'react';
 
-export function ChangeType(): React.JSX.Element {
-    const [questionType, setQuestionType] = useState<QuestionType>(
-        "short_answer_question"
-    );
+  const ChangeType: React.FC = () => {
+    const [type, setType] = useState<string>('Type A');
 
-    function toggleQuestionType(): void {
-        setQuestionType(
-            questionType === "short_answer_question"
-                ? "multiple_choice_question"
-                : "short_answer_question"
-        );
-    }
+    const toggleType = () => {
+      setType((prevType) => (prevType === 'Type A' ? 'Type B' : 'Type A'));
+    };
 
     return (
-        <div>
-            <h3>Change Type</h3>
-            <Button onClick={toggleQuestionType}>Change Type</Button>
-            <p>
-                {questionType === "short_answer_question"
-                    ? "Short Answer"
-                    : "Multiple Choice"}
-            </p>
-        </div>
+      <div>
+        <p>Current Type: {type}</p>
+        <button onClick={toggleType}>Change Type</button>
+      </div>
     );
-}
+  };
+
+  export default ChangeType;
